@@ -7,7 +7,7 @@ backstage:
         configMapRef: backstage-extra-config
     image:
       repository: ghcr.io/cervator/backstage
-      tag: "3"
+      tag: "2"
       #debug: true
 
   postgresql:
