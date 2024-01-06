@@ -1,10 +1,10 @@
 pipeline {
     agent {
-        label 'kubectl' // Use an agent with the "kubectl" label
+        label 'kubectl' 
     }
 
     stages {
-        stage('Prepare Secret') {
+        stage('Prepare Secrets') {
 
             steps {
                 // Grab each desired credential and apply it to a local file
@@ -35,6 +35,14 @@ pipeline {
                 // Deploy the secret to Kubernetes
                 withKubeConfig(clusterName: 'ttf-cluster', contextName: 'jenkins-k8s', credentialsId: '1c00907c-98ab-4c55-bd44-7afc075d4ac8', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://kubernetes.default') {
                     sh 'kubectl apply -f backstage-secrets.yaml -n testsekkreit'
+                }
+            }
+        }
+
+        stage('Apply via Helm') {
+            steps {
+                withKubeConfig(clusterName: 'ttf-cluster', contextName: 'jenkins-k8s', credentialsId: '1c00907c-98ab-4c55-bd44-7afc075d4ac8', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://kubernetes.default') {
+                    sh 'helm upgrade -f values.yaml backstage .'
                 }
             }
         }
