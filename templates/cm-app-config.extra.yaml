@@ -13,7 +13,7 @@ data:
       catalogFilePath: "/app"
 
     app:
-      title: Proto Backstage
+      title: Proto Backstage Z
       baseUrl: https://backstage.terasology.io
 
     #organization:
