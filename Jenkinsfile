@@ -42,6 +42,7 @@ pipeline {
         stage('Apply via Helm') {
             steps {
                 withKubeConfig(clusterName: 'ttf-cluster', contextName: 'jenkins-k8s', credentialsId: '1c00907c-98ab-4c55-bd44-7afc075d4ac8', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://kubernetes.default') {
+                    sh 'helm dependency build'
                     sh 'helm upgrade -f values.yaml backstage .'
                 }
             }
