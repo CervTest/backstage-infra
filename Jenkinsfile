@@ -9,7 +9,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'backstage-backend-secret', variable: 'BackstageBackendSecret')]) {
                     sh "sed -i 's|BACKSTAGE_BACKEND_SECRET_TEXT|${BackstageBackendSecret}|g' backstage-secrets.yaml"
-                    sh "cat secret.yaml"
+                    sh "cat backstage-secrets.yaml"
                 }
                 
                 // Deploy to Kubernetes
