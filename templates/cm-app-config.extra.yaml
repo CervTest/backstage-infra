@@ -13,7 +13,7 @@ data:
       catalogFilePath: "/app"
 
     app:
-      title: Proto Backstage Z
+      title: Proto Backstage ZZ
       baseUrl: https://backstage.terasology.io
 
     #organization:
@@ -120,8 +120,8 @@ data:
           target: ${CATALOG_FILE_PATH}/examples/devops-domain/tool-jira.yaml
 
         # Jenkins template (relied on an old Jenkinsfile in an Operator Jenkins)
-        - type: url
-          target: https://github.com/Cervator/backstage-template-jenkins/blob/master/template.yaml
+        #- type: url
+        #  target: https://github.com/Cervator/backstage-template-jenkins/blob/master/template.yaml
 
         # Ghost blog example template
         - type: url
