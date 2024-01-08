@@ -6,8 +6,8 @@ backstage:
       - filename: app-config.extra.yaml
         configMapRef: backstage-extra-config
     image:
-      repository: ghcr.io/cervator/backstage
-      tag: "4"
+      repository: gcr.io/proto-client-ttf-832500/backstage
+      tag: "latest"
       #debug: true
 
   postgresql:

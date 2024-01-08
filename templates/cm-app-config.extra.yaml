@@ -13,7 +13,7 @@ data:
       catalogFilePath: "/app"
 
     app:
-      title: Proto Backstage ZZ
+      title: Backstage Helm App
       baseUrl: https://backstage.terasology.io
 
     #organization:

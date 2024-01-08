@@ -3,34 +3,24 @@ pipeline {
         label 'kubectl' 
     }
 
+    environment {
+        BACKSTAGE_BACKEND_SECRET = credentials('backstage-backend-secret')
+        BACKSTAGE_POSTGRES_PASSWORD = credentials('backstage-postgres-password')
+        BACKSTAGE_GITHUB_TOKEN = credentials('backstage-github-token')
+        BACKSTAGE_GITHUB_AUTH_CLIENT_ID = credentials('backstage-github-auth-client-id')
+        BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET = credentials('backstage-github-auth-client-secret')
+        PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE = credentials('premium-backstage-plugins-spotify-license')
+    }
+
     stages {
         stage('Prepare Secrets') {
-
             steps {
-                // Grab each desired credential and apply it to a local file
-                withCredentials([string(credentialsId: 'backstage-backend-secret', variable: 'backstageBackendSecret')]) {
-                    sh "sed -i 's|BACKSTAGE_BACKEND_SECRET_TEXT|${backstageBackendSecret}|g' backstage-secrets.yaml"
-                }
-
-                withCredentials([string(credentialsId: 'backstage-postgres-password', variable: 'backstagePostgresPassword')]) {
-                    sh "sed -i 's|BACKSTAGE_POSTGRES_PASSWORD|${backstagePostgresPassword}|g' backstage-secrets.yaml"
-                }
-
-                withCredentials([string(credentialsId: 'backstage-github-token', variable: 'backstageGitHubToken')]) {
-                    sh "sed -i 's|BACKSTAGE_GITHUB_TOKEN|${backstageGitHubToken}|g' backstage-secrets.yaml"
-                }
-
-                withCredentials([string(credentialsId: 'backstage-github-auth-client-id', variable: 'backstageGitHubAuthClientId')]) {
-                    sh "sed -i 's|BACKSTAGE_GITHUB_AUTH_CLIENT_ID|${backstageGitHubAuthClientId}|g' backstage-secrets.yaml"
-                }
-
-                withCredentials([string(credentialsId: 'backstage-github-auth-client-secret', variable: 'backstageGitHubAuthClientSecret')]) {
-                    sh "sed -i 's|BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET|${backstageGitHubAuthClientSecret}|g' backstage-secrets.yaml"
-                }
-
-                withCredentials([string(credentialsId: 'premium-backstage-plugins-spotify-license', variable: 'premiumBackstagePluginsSpotifyLicense')]) {
-                    sh "sed -i 's|PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE|${premiumBackstagePluginsSpotifyLicense}|g' backstage-secrets.yaml"
-                }
+                sh 'sed -i "s|BACKSTAGE_BACKEND_SECRET_TEXT|${BACKSTAGE_BACKEND_SECRET}|g" backstage-secrets.yaml'
+                sh 'sed -i "s|BACKSTAGE_POSTGRES_PASSWORD|${BACKSTAGE_POSTGRES_PASSWORD}|g" backstage-secrets.yaml'
+                sh 'sed -i "s|BACKSTAGE_GITHUB_TOKEN|${BACKSTAGE_GITHUB_TOKEN}|g" backstage-secrets.yaml'
+                sh 'sed -i "s|BACKSTAGE_GITHUB_AUTH_CLIENT_ID|${BACKSTAGE_GITHUB_AUTH_CLIENT_ID}|g" backstage-secrets.yaml'
+                sh 'sed -i "s|BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET|${BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET}|g" backstage-secrets.yaml'
+                sh 'sed -i "s|PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE|${PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE}|g" backstage-secrets.yaml'
                 
                 // Deploy the secret to Kubernetes
                 withKubeConfig(clusterName: 'ttf-cluster', contextName: 'jenkins-k8s', credentialsId: '1c00907c-98ab-4c55-bd44-7afc075d4ac8', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://kubernetes.default') {
