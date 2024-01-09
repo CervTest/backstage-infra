@@ -91,33 +91,6 @@ data:
       rules:
         - allow: [Domain, Component, System, Domain, API, Resource, Location, Template, User, Group]
       locations:
-        # DevOps Domain example set
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/domain-devops.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/env-jira-prod.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/env-jira-stage.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/group-devops-operations.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/group-devops-tools.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/group-devops.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/process-user-admin.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/system-build.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/system-track.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/tenant-jira-abc.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/tenant-jira-tool.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/tool-jenkins.yaml
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/devops-domain/tool-jira.yaml
 
         # Jenkins template (relied on an old Jenkinsfile in an Operator Jenkins)
         #- type: url
@@ -126,16 +99,6 @@ data:
         # Ghost blog example template
         - type: url
           target: https://github.com/Cervator/backstage-template-ghost/blob/main/template.yaml
-
-        # Local example data, file locations are relative to the backend process, typically `packages/backend`
-        - type: file
-          target: ${CATALOG_FILE_PATH}/examples/lambgoat.yaml
-
-        - type: file
-          target: ${CATALOG_FILE_PATH}/soundcheck/bluedemo.yaml
-
-        - type: file
-          target: ${CATALOG_FILE_PATH}/soundcheck/skydemo.yaml
 
         - type: file
           target: ${CATALOG_FILE_PATH}/examples/entities.yaml
@@ -153,22 +116,3 @@ data:
 
         - type: url
           target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
-
-    soundcheck:
-      programs:
-        $include: ./soundcheck/soundcheck-tracks.yaml
-      checks:
-        #$include: ./soundcheck/soundcheck-checks.yaml
-        - id: has-readme
-          rule:
-            factRef: scm:default/readme
-            path: $.exists
-            operator: equal
-            value: true
-          passedMessage: |
-            README.md was found at repository root, check passed.
-          failedMessage: |
-            README.md was not found at repository root, check failed.
-
-    spotify:
-      licenseKey: ${SPOTIFY_LICENSE}
