@@ -54,10 +54,14 @@ data:
           # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
           token: ${GITHUB_TOKEN}
 
-    jenkins:
-      baseUrl: https://jenkins.terasology.io
-      username: cervator
-      apiKey: ${JENKINS_API_TOKEN}
+    #jenkins:
+    #  baseUrl: https://jenkins.terasology.io
+    #  username: cervator
+    #  apiKey: ${JENKINS_API_TOKEN}
+
+    sonarqube:
+      baseUrl: https://sonarqube.terasology.io
+      apiKey: ${SONAR_TOKEN}
 
     # Reference documentation http://backstage.io/docs/features/techdocs/configuration
     # Note: After experimenting with basic setup, use CI/CD to generate docs
