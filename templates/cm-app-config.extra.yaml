@@ -59,9 +59,25 @@ data:
     #  username: cervator
     #  apiKey: ${JENKINS_API_TOKEN}
 
-    sonarqube:
-      baseUrl: https://sonarqube.terasology.io
-      apiKey: ${SONAR_TOKEN}
+    #sonarqube:
+    #  baseUrl: https://sonarqube.terasology.io
+    #  apiKey: ${SONAR_TOKEN}
+
+    proxy:
+      ### Example for how to add a proxy endpoint for the frontend.
+      ### A typical reason to do this is to handle HTTPS and CORS for internal services.
+      endpoints:
+      #   '/test':
+      #     target: 'https://example.com'
+          # changeOrigin: true
+        '/nexus-repository-manager':
+          target: 'https://nexus.terasology.io'
+          headers:
+            X-Requested-With: 'XMLHttpRequest'
+            Authorization: 'Basic ${NEXUS_AUTHORIZATION}'
+          changeOrigin: true
+          # Change to "false" in case of using self hosted Nexus Repository Manager instance with a self-signed certificate
+          secure: true
 
     # Reference documentation http://backstage.io/docs/features/techdocs/configuration
     # Note: After experimenting with basic setup, use CI/CD to generate docs
