@@ -13,6 +13,7 @@ pipeline {
         JENKINS_API_TOKEN_CERVATOR = credentials('jenkins-api-token-cervator')
         SONAR_TOKEN_ADMIN_USER = credentials('sonar-api-token-admin-user')
         NEXUS_USER_PASS_ENCODED = credentials('nexus-cred-base64') 
+        AVST_GITLAB_TOKEN = credentials('avst_gitlab_token') 
     }
 
     stages {
@@ -27,6 +28,7 @@ pipeline {
                 sh 'sed -i "s|JENKINS_API_TOKEN_CERVATOR|${JENKINS_API_TOKEN_CERVATOR}|g" backstage-secrets.yaml'
                 sh 'sed -i "s|SONAR_TOKEN_ADMIN_USER|${SONAR_TOKEN_ADMIN_USER}|g" backstage-secrets.yaml'
                 sh 'sed -i "s|NEXUS_USER_PASS_ENCODED|${NEXUS_USER_PASS_ENCODED}|g" backstage-secrets.yaml'
+                sh 'sed -i "s|AVST_GITLAB_TOKEN|${AVST_GITLAB_TOKEN}|g" backstage-secrets.yaml'
                 
                 // Deploy the secret to Kubernetes
                 withKubeConfig(clusterName: 'ttf-cluster', contextName: 'jenkins-k8s', credentialsId: '1c00907c-98ab-4c55-bd44-7afc075d4ac8', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://kubernetes.default') {
