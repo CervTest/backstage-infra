@@ -12,8 +12,8 @@ data:
       title: Backstage Helm App
       baseUrl: https://backstage.terasology.io
 
-    #organization:
-    #  name: Proto Customer
+    organization:
+      name: Proto Customer
 
     backend:
       logging:
@@ -58,14 +58,14 @@ data:
           token: ${GITLAB_TOKEN}
           apiBaseUrl: https://gitlab.adaptavist.net/api/v4
 
-    #jenkins:
-    #  baseUrl: https://jenkins.terasology.io
-    #  username: cervator
-    #  apiKey: ${JENKINS_API_TOKEN}
+    jenkins:
+      baseUrl: https://jenkins.terasology.io
+      username: cervator
+      apiKey: ${JENKINS_API_TOKEN}
 
-    #sonarqube:
-    #  baseUrl: https://sonarqube.terasology.io
-    #  apiKey: ${SONAR_TOKEN}
+    sonarqube:
+      baseUrl: https://sonarqube.terasology.io
+      apiKey: ${SONAR_TOKEN}
 
     proxy:
       endpoints:
