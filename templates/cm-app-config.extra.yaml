@@ -67,6 +67,23 @@ data:
       baseUrl: https://sonarqube.terasology.io
       apiKey: ${SONAR_TOKEN}
 
+    confluence:
+      # Confluence base URL for wiki API
+      # Typically: https://{org-name}.atlassian.net/wiki
+      wikiUrl: https://venuesh.atlassian.net/wiki/ # Cloud
+      #wikiUrl: https://i.adaptavist.com # DC
+
+      # List of spaces to index
+      # See https://confluence.atlassian.com/conf59/spaces-792498593.html
+      spaces: [Venuesh] # Cloud
+      #spaces: [DH] # DC
+      # Authentication credentials towards Confluence API
+      auth:
+        username: ${CONFLUENCE_USERNAME}
+        # While Confluence supports BASIC authentication, using an API token is preferred.
+        # See: https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/
+        password: ${CONFLUENCE_PASSWORD}
+
     proxy:
       endpoints:
         '/nexus-repository-manager':
@@ -77,6 +94,17 @@ data:
           changeOrigin: true
           # Change to "false" in case of using self hosted Nexus Repository Manager instance with a self-signed certificate
           secure: true
+      '/jira/api':
+        target: https://venuesh.atlassian.net # Cloud
+        #target: https://tracker.adaptavist.com # DC
+        headers:
+          Authorization: "Basic ${JIRA_TOKEN}" # Cloud
+          #Authorization: "Bearer ${JIRA_TOKEN}" # DC
+          Accept: 'application/json'
+          Content-Type: 'application/json'
+          X-Atlassian-Token: 'no-check'
+          # This is a workaround since Jira APIs reject browser origin requests. Any dummy string without whitespace works.
+          User-Agent: "Backstage"
 
     # Reference documentation http://backstage.io/docs/features/techdocs/configuration
     # Note: After experimenting with basic setup, use CI/CD to generate docs
