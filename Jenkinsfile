@@ -15,8 +15,8 @@ pipeline {
         NEXUS_USER_PASS_ENCODED = credentials('nexus-cred-base64')
         AVST_GITLAB_TOKEN = credentials('avst_gitlab_token')
         JIRA_ENCODED_TOKEN = credentials('jira-token-rasmus-venue')
-        CONFLUENCE_USER = credentials('confluence-user-rasmus-venue')
-        CONFLUENCE_PASS = credentials('confluence-password-rasmus-venue')
+        CONFLUENCE_ACCOUNT_USER = credentials('confluence-user-rasmus-venue')
+        CONFLUENCE_ACCOUNT_PASS = credentials('confluence-password-rasmus-venue')
     }
 
     stages {
