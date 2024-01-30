@@ -31,6 +31,13 @@ data:
         # host: 127.0.0.1
       csp:
         connect-src: ["'self'", 'http:', 'https:']
+        img-src: 
+          # "'self'" and 'data' are from the backstage default but must be set since img-src is overriden
+          - "'self'"
+          - 'data:'
+          # Allow your Jira instance for @roadiehq/backstage-plugin-jira
+          - 'https://venuesh.atlassian.net' #Cloud
+          #- 'https://tracker.adaptavist.com' #DC      
       cors:
         origin: http://*
         methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
@@ -85,15 +92,6 @@ data:
         password: ${CONFLUENCE_PASSWORD}
 
     proxy:
-      endpoints:
-        '/nexus-repository-manager':
-          target: 'https://nexus.terasology.io'
-          headers:
-            X-Requested-With: 'XMLHttpRequest'
-            Authorization: 'Basic ${NEXUS_AUTHORIZATION}'
-          changeOrigin: true
-          # Change to "false" in case of using self hosted Nexus Repository Manager instance with a self-signed certificate
-          secure: true
       '/jira/api':
         target: https://venuesh.atlassian.net # Cloud
         #target: https://tracker.adaptavist.com # DC
@@ -105,6 +103,15 @@ data:
           X-Atlassian-Token: 'no-check'
           # This is a workaround since Jira APIs reject browser origin requests. Any dummy string without whitespace works.
           User-Agent: "Backstage"
+      #endpoints:
+      #  '/nexus-repository-manager':
+      #    target: 'https://nexus.terasology.io'
+      #    headers:
+      #      X-Requested-With: 'XMLHttpRequest'
+      #      Authorization: 'Basic ${NEXUS_AUTHORIZATION}'
+      #    changeOrigin: true
+      #    # Change to "false" in case of using self hosted Nexus Repository Manager instance with a self-signed certificate
+      #    secure: true
 
     # Reference documentation http://backstage.io/docs/features/techdocs/configuration
     # Note: After experimenting with basic setup, use CI/CD to generate docs
