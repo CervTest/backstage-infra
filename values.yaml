@@ -8,7 +8,7 @@ backstage:
     image:
       registry: gcr.io
       repository: proto-client-ttf-832500/backstage
-      tag: "4d2c7d1c6a0d"
+      digest: sha256:4d2c7d1c6a0defb40e0c59891b6b975c88d1113c74fb2aaacf12db4ca948cefe
       #debug: true
 
   postgresql:
