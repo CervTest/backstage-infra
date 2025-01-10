@@ -29,7 +29,6 @@ pipeline {
                 sh 'sed -i "s|JENKINS_API_TOKEN_CERVATOR|${JENKINS_API_TOKEN_CERVATOR}|g" backstage-secrets.yaml'
                 sh 'sed -i "s|SONAR_TOKEN_ADMIN_USER|${SONAR_TOKEN_ADMIN_USER}|g" backstage-secrets.yaml'
                 sh 'sed -i "s|NEXUS_USER_PASS_ENCODED|${NEXUS_USER_PASS_ENCODED}|g" backstage-secrets.yaml'
-                sh 'sed -i "s|AVST_GITLAB_TOKEN|${AVST_GITLAB_TOKEN}|g" backstage-secrets.yaml'
                 
                 // Deploy the secret to Kubernetes
                 withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {
