@@ -6,9 +6,9 @@ backstage:
       - filename: app-config.extra.yaml
         configMapRef: backstage-extra-config
     image:
-      registry: gcr.io
-      repository: proto-client-ttf-832500/backstage
-      tag: ttf
+      registry: us-east1-docker.pkg.dev
+      repository: teralivekubernetes/backstage/backstage
+      tag: "ttf2"
       #debug: true
 
   postgresql:

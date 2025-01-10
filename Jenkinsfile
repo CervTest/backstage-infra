@@ -4,6 +4,7 @@ pipeline {
     }
 
     environment {
+        // Note: In Jenkins these may be stored under a given folder, like https://jenkins.terasology.io/job/Experimental/credentials/ rather than globally
         BACKSTAGE_BACKEND_SECRET = credentials('backstage-backend-secret')
         BACKSTAGE_POSTGRES_PASSWORD = credentials('backstage-postgres-password')
         BACKSTAGE_GITHUB_TOKEN = credentials('backstage-github-token')
@@ -31,7 +32,7 @@ pipeline {
                 sh 'sed -i "s|AVST_GITLAB_TOKEN|${AVST_GITLAB_TOKEN}|g" backstage-secrets.yaml'
                 
                 // Deploy the secret to Kubernetes
-                withKubeConfig(clusterName: 'ttf-cluster', contextName: 'jenkins-k8s', credentialsId: '1c00907c-98ab-4c55-bd44-7afc075d4ac8', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://kubernetes.default') {
+                withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {
                     sh 'kubectl apply -f backstage-secrets.yaml -n backstage'
                 }
             }
@@ -39,7 +40,7 @@ pipeline {
 
         stage('Apply via Helm') {
             steps {
-                withKubeConfig(clusterName: 'ttf-cluster', contextName: 'jenkins-k8s', credentialsId: '1c00907c-98ab-4c55-bd44-7afc075d4ac8', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'https://kubernetes.default') {
+                withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {
                     sh 'helm dependency build'
                     sh 'helm upgrade --recreate-pods -f values.yaml -n backstage backstage .'
                     // Note that without --recreate-pods the Backstage pod may not update if it is set to "latest"
