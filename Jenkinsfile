@@ -30,7 +30,7 @@ pipeline {
                     //sh 'sed -i "s|SONAR_TOKEN_ADMIN_USER|${SONAR_TOKEN_ADMIN_USER}|g" backstage-secrets.yaml'
                     //sh 'sed -i "s|NEXUS_USER_PASS_ENCODED|${NEXUS_USER_PASS_ENCODED}|g" backstage-secrets.yaml'
                     
-                    // Deploy the secret to Kubernetes
+                    // Deploy the secret to Kubernetes - TODO: Relies on namespace already existing
                     withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {
                         sh 'kubectl apply -f backstage-secrets.yaml -n backstage'
                     }
@@ -55,7 +55,8 @@ pipeline {
                 container('utility') {
                     withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {
                         sh 'helm dependency build'
-                        sh 'helm upgrade --recreate-pods -f values.yaml -n backstage backstage .'
+                        // TODO: Expects the release to have already been installed, and "--recreate-pods" appears deprecated/gone
+                        sh 'helm upgrade -f values.yaml -n backstage backstage .'
                         // Note that without --recreate-pods the Backstage pod may not update if it is set to "latest"
                     }
                 }
