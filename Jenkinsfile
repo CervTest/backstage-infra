@@ -14,7 +14,6 @@ pipeline {
         JENKINS_API_TOKEN_CERVATOR = credentials('jenkins-api-token-cervator')
         SONAR_TOKEN_ADMIN_USER = credentials('sonar-api-token-admin-user')
         NEXUS_USER_PASS_ENCODED = credentials('nexus-cred-base64') 
-        AVST_GITLAB_TOKEN = credentials('avst_gitlab_token') 
     }
 
     stages {
