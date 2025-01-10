@@ -11,9 +11,9 @@ pipeline {
         BACKSTAGE_GITHUB_AUTH_CLIENT_ID = credentials('backstage-github-auth-client-id')
         BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET = credentials('backstage-github-auth-client-secret')
         PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE = credentials('premium-backstage-plugins-spotify-license')
-        JENKINS_API_TOKEN_CERVATOR = credentials('jenkins-api-token-cervator')
-        SONAR_TOKEN_ADMIN_USER = credentials('sonar-api-token-admin-user')
-        NEXUS_USER_PASS_ENCODED = credentials('nexus-cred-base64') 
+        //JENKINS_API_TOKEN_CERVATOR = credentials('jenkins-api-token-cervator')
+        //SONAR_TOKEN_ADMIN_USER = credentials('sonar-api-token-admin-user')
+        //NEXUS_USER_PASS_ENCODED = credentials('nexus-cred-base64') 
     }
 
     stages {
@@ -25,9 +25,9 @@ pipeline {
                 sh 'sed -i "s|BACKSTAGE_GITHUB_AUTH_CLIENT_ID|${BACKSTAGE_GITHUB_AUTH_CLIENT_ID}|g" backstage-secrets.yaml'
                 sh 'sed -i "s|BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET|${BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET}|g" backstage-secrets.yaml'
                 sh 'sed -i "s|PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE|${PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE}|g" backstage-secrets.yaml'
-                sh 'sed -i "s|JENKINS_API_TOKEN_CERVATOR|${JENKINS_API_TOKEN_CERVATOR}|g" backstage-secrets.yaml'
-                sh 'sed -i "s|SONAR_TOKEN_ADMIN_USER|${SONAR_TOKEN_ADMIN_USER}|g" backstage-secrets.yaml'
-                sh 'sed -i "s|NEXUS_USER_PASS_ENCODED|${NEXUS_USER_PASS_ENCODED}|g" backstage-secrets.yaml'
+                //sh 'sed -i "s|JENKINS_API_TOKEN_CERVATOR|${JENKINS_API_TOKEN_CERVATOR}|g" backstage-secrets.yaml'
+                //sh 'sed -i "s|SONAR_TOKEN_ADMIN_USER|${SONAR_TOKEN_ADMIN_USER}|g" backstage-secrets.yaml'
+                //sh 'sed -i "s|NEXUS_USER_PASS_ENCODED|${NEXUS_USER_PASS_ENCODED}|g" backstage-secrets.yaml'
                 
                 // Deploy the secret to Kubernetes
                 withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {

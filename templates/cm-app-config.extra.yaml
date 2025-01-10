@@ -53,30 +53,26 @@ data:
           # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
           # about setting up the GitHub integration here: https://backstage.io/docs/getting-started/configuration#setting-up-a-github-integration
           token: ${GITHUB_TOKEN}
-      gitlab:
-        - host: gitlab.adaptavist.net
-          token: ${GITLAB_TOKEN}
-          apiBaseUrl: https://gitlab.adaptavist.net/api/v4
 
-    jenkins:
-      baseUrl: https://jenkins.terasology.io
-      username: cervator
-      apiKey: ${JENKINS_API_TOKEN}
+    #jenkins:
+    #  baseUrl: https://jenkins.terasology.io
+    #  username: cervator
+    #  apiKey: ${JENKINS_API_TOKEN}
 
-    sonarqube:
-      baseUrl: https://sonarqube.terasology.io
-      apiKey: ${SONAR_TOKEN}
+    #sonarqube:
+    #  baseUrl: https://sonarqube.terasology.io
+    #  apiKey: ${SONAR_TOKEN}
 
-    proxy:
-      endpoints:
-        '/nexus-repository-manager':
-          target: 'https://nexus.terasology.io'
-          headers:
-            X-Requested-With: 'XMLHttpRequest'
-            Authorization: 'Basic ${NEXUS_AUTHORIZATION}'
-          changeOrigin: true
-          # Change to "false" in case of using self hosted Nexus Repository Manager instance with a self-signed certificate
-          secure: true
+    #proxy:
+    #  endpoints:
+    #    '/nexus-repository-manager':
+    #      target: 'https://nexus.terasology.io'
+    #      headers:
+    #        X-Requested-With: 'XMLHttpRequest'
+    #        Authorization: 'Basic ${NEXUS_AUTHORIZATION}'
+    #      changeOrigin: true
+    #      # Change to "false" in case of using self hosted Nexus Repository Manager instance with a self-signed certificate
+    #      secure: true
 
     # Reference documentation http://backstage.io/docs/features/techdocs/configuration
     # Note: After experimenting with basic setup, use CI/CD to generate docs
