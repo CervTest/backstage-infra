@@ -19,29 +19,45 @@ pipeline {
     stages {
         stage('Prepare Secrets') {
             steps {
-                sh 'sed -i "s|BACKSTAGE_BACKEND_SECRET_TEXT|${BACKSTAGE_BACKEND_SECRET}|g" backstage-secrets.yaml'
-                sh 'sed -i "s|BACKSTAGE_POSTGRES_PASSWORD|${BACKSTAGE_POSTGRES_PASSWORD}|g" backstage-secrets.yaml'
-                sh 'sed -i "s|BACKSTAGE_GITHUB_TOKEN|${BACKSTAGE_GITHUB_TOKEN}|g" backstage-secrets.yaml'
-                sh 'sed -i "s|BACKSTAGE_GITHUB_AUTH_CLIENT_ID|${BACKSTAGE_GITHUB_AUTH_CLIENT_ID}|g" backstage-secrets.yaml'
-                sh 'sed -i "s|BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET|${BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET}|g" backstage-secrets.yaml'
-                sh 'sed -i "s|PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE|${PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE}|g" backstage-secrets.yaml'
-                //sh 'sed -i "s|JENKINS_API_TOKEN_CERVATOR|${JENKINS_API_TOKEN_CERVATOR}|g" backstage-secrets.yaml'
-                //sh 'sed -i "s|SONAR_TOKEN_ADMIN_USER|${SONAR_TOKEN_ADMIN_USER}|g" backstage-secrets.yaml'
-                //sh 'sed -i "s|NEXUS_USER_PASS_ENCODED|${NEXUS_USER_PASS_ENCODED}|g" backstage-secrets.yaml'
-                
-                // Deploy the secret to Kubernetes
-                withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {
-                    sh 'kubectl apply -f backstage-secrets.yaml -n backstage'
+                container('utility') {
+                    sh 'sed -i "s|BACKSTAGE_BACKEND_SECRET_TEXT|${BACKSTAGE_BACKEND_SECRET}|g" backstage-secrets.yaml'
+                    sh 'sed -i "s|BACKSTAGE_POSTGRES_PASSWORD|${BACKSTAGE_POSTGRES_PASSWORD}|g" backstage-secrets.yaml'
+                    sh 'sed -i "s|BACKSTAGE_GITHUB_TOKEN|${BACKSTAGE_GITHUB_TOKEN}|g" backstage-secrets.yaml'
+                    sh 'sed -i "s|BACKSTAGE_GITHUB_AUTH_CLIENT_ID|${BACKSTAGE_GITHUB_AUTH_CLIENT_ID}|g" backstage-secrets.yaml'
+                    sh 'sed -i "s|BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET|${BACKSTAGE_GITHUB_AUTH_CLIENT_SECRET}|g" backstage-secrets.yaml'
+                    sh 'sed -i "s|PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE|${PREMIUM_BACKSTAGE_PLUGINS_SPOTIFY_LICENSE}|g" backstage-secrets.yaml'
+                    //sh 'sed -i "s|JENKINS_API_TOKEN_CERVATOR|${JENKINS_API_TOKEN_CERVATOR}|g" backstage-secrets.yaml'
+                    //sh 'sed -i "s|SONAR_TOKEN_ADMIN_USER|${SONAR_TOKEN_ADMIN_USER}|g" backstage-secrets.yaml'
+                    //sh 'sed -i "s|NEXUS_USER_PASS_ENCODED|${NEXUS_USER_PASS_ENCODED}|g" backstage-secrets.yaml'
+                    
+                    // Deploy the secret to Kubernetes
+                    withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {
+                        sh 'kubectl apply -f backstage-secrets.yaml -n backstage'
+                    }
+                }
+            }
+        }
+
+        stage('Install Helm (temp)') {
+            steps {
+                container('utility') {
+                    sh '''
+                    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+                    chmod 700 get_helm.sh
+                    ./get_helm.sh
+                    '''
                 }
             }
         }
 
         stage('Apply via Helm') {
             steps {
-                withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {
-                    sh 'helm dependency build'
-                    sh 'helm upgrade --recreate-pods -f values.yaml -n backstage backstage .'
-                    // Note that without --recreate-pods the Backstage pod may not update if it is set to "latest"
+                container('utility') {
+                    withKubeConfig(credentialsId: 'utility-admin-kubeconfig-sa-token') {
+                        sh 'helm dependency build'
+                        sh 'helm upgrade --recreate-pods -f values.yaml -n backstage backstage .'
+                        // Note that without --recreate-pods the Backstage pod may not update if it is set to "latest"
+                    }
                 }
             }
         }
